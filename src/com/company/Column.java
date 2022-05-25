@@ -124,22 +124,55 @@ public class Column implements Serializable {
         }
         return i;
     }
+
     public void showString(){
         for (String current : strings) {
-            System.out.println(current);
+            if(current!=null)
+                System.out.print(current);
+            else
+                System.out.print("NULL");
         }
     }
 
     public void showDouble(){
         for (Double current : doubles) {
-            System.out.println(current);
+            if(current!=null)
+                System.out.print(current);
+            else
+                System.out.print("NULL");
         }
     }
 
     public void showInt(){
             for (Integer current : integers) {
-                System.out.println(current);
+                if(current!=null)
+                    System.out.print(current);
+                else
+                    System.out.print("NULL");
             }
+
+    }
+
+    public void showStringCell(int index){
+            if(strings.get(index)!=null)
+                System.out.print(strings.get(index));
+            else
+                System.out.print("NULL");
+    }
+
+    public void showDoubleCell(int index){
+            if(doubles.get(index)!=null)
+                System.out.print(doubles.get(index));
+            else
+                System.out.print("NULL");
+
+    }
+
+    public void showIntCell(int index){
+            if(integers.get(index)!=null)
+                System.out.print(integers.get(index));
+            else
+                System.out.print("NULL");
 
     }
 
@@ -178,11 +211,29 @@ public class Column implements Serializable {
                 break;
         }
     }
+
     @Override
     public String toString() {
         return "Column{" +
                 "type='" + type + '\'' +
                 ", name='" + name +
                 '}';
+    }
+
+    public void changeCellValue(int index, String data){
+        switch (type){
+            case "string":{
+                strings.set(index,data);
+                break;
+            }
+            case "int":{
+                integers.set(index,Integer.parseInt(data));
+                break;
+            }
+            case "double":{
+                doubles.set(index,Double.parseDouble(data));
+                break;
+            }
+        }
     }
 }

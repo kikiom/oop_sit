@@ -18,6 +18,7 @@ public class Main {
         catalog.addTable("test");
         Table table1 = catalog.getTable("test");
         table1.addColumn("int","f");
+        table1.addColumn("string","second");
         table1.addCell(1,0);
         table1.addCell(2,0);
         table1.addCell(1,0);
@@ -162,6 +163,7 @@ public class Main {
                     System.out.print("New value :");
                     String newValue = console.nextLine();
                     Table table=catalog.getTable(tname);
+                    table.update(value,Integer.parseInt(cnum),newValue);
                     break;
                 }
                 case "select":{
@@ -172,6 +174,7 @@ public class Main {
                     System.out.print("Search value :");
                     String value = console.nextLine();
                     Table table=catalog.getTable(tname);
+                    table.select(value,Integer.parseInt(cnum));
                     break;
                 }
                 case "help":{

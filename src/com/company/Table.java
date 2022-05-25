@@ -54,18 +54,19 @@ public class Table implements Serializable {
         Scanner console=new Scanner(System.in);
         int i = 0;
         while (go){
-            switch (columns.get(i).getType()) {
+            for (Column current : columns)
+            switch (current.getType()) {
                     case "string":
-                        columns.get(i).showString();
+                        current.showString();
                         break;
                     case "int":
-                        columns.get(i).showInt();
+                        current.showInt();
                         break;
                     case "double":
-                        columns.get(i).showDouble();
+                        current.showDouble();
                         break;
             }
-            System.out.print("page command :");
+            System.out.print("nest | previous | exit\npage command :");
             String command = console.nextLine();
             switch (command) {
                 case "next":{
@@ -134,30 +135,47 @@ public class Table implements Serializable {
     }
 
     public void update(String data, int index, String newData){
-        List<Integer> i =columns.get(index).search(data);
-        Column current = columns.get(index);
+        List<Integer> indexes =columns.get(index).search(data);
+        for (int i:indexes){
+            columns.get(index).changeCellValue(i,newData);
+        }
 
     }
 
     public void select(String data, int index){
-        List<Integer> indexes =columns.get(index).search(data);
-        Column current = columns.get(index);
-        switch (current.getType()) {
-            case "string":
-                for (int i:indexes) {
-                    current.showString();
+        List<Integer> indexes = columns.get(index).search(data);
+        Scanner console = new Scanner(System.in);
+        int i =0;
+        boolean go = true;
+        while (go) {
+            for (Column current : columns)
+                switch (current.getType()) {
+                    case "string":
+                        current.showStringCell(indexes.get(i));
+                        break;
+                    case "int":
+                        current.showIntCell(indexes.get(i));
+                        break;
+                    case "double":
+                        current.showDoubleCell(indexes.get(i));
+                        break;
                 }
-                break;
-            case "int":
-                for (int i:indexes) {
-                    current.showInt();
+            System.out.print("nest | previous | exit\npage command :");
+            String command = console.nextLine();
+            switch (command) {
+                case "next": {
+                    if (i < indexes.size()) i++;
+                    break;
                 }
-                break;
-            case "double":
-                for (int i:indexes) {
-                    current.showDouble();
+                case "previous": {
+                    if (i > 0) i--;
+                    break;
                 }
-                break;
+                case "exit": {
+                    go = false;
+                    break;
+                }
+            }
         }
     }
 }
