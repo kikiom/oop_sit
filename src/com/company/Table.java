@@ -57,20 +57,23 @@ public class Table implements Serializable {
             for (Column current : columns)
             switch (current.getType()) {
                     case "string":
-                        current.showString();
+                        current.showString(i);
+                        System.out.print(" | ");
                         break;
                     case "int":
-                        current.showInt();
+                        current.showInt(i);
+                        System.out.print(" | ");
                         break;
                     case "double":
-                        current.showDouble();
+                        current.showDouble(i);
+                        System.out.print(" | ");
                         break;
             }
-            System.out.print("nest | previous | exit\npage command :");
+            System.out.print("\nnext | previous | exit\npage command :");
             String command = console.nextLine();
             switch (command) {
                 case "next":{
-                    if(i<columns.size())i++;
+                    if(i+1<columns.size())i++;
                     break;
                 }
                 case "previous":{
@@ -134,10 +137,12 @@ public class Table implements Serializable {
         current.delete(i);
     }
 
-    public void update(String data, int index, String newData){
+    public void update(String data, int index, String newData,int newIndex){
         List<Integer> indexes =columns.get(index).search(data);
-        for (int i:indexes){
-            columns.get(index).changeCellValue(i,newData);
+        if (indexes.size()!=0){
+            for (int i:indexes){
+                columns.get(newIndex).changeCellValue(i,newData);
+            }
         }
 
     }
@@ -145,35 +150,40 @@ public class Table implements Serializable {
     public void select(String data, int index){
         List<Integer> indexes = columns.get(index).search(data);
         Scanner console = new Scanner(System.in);
-        int i =0;
-        boolean go = true;
-        while (go) {
-            for (Column current : columns)
-                switch (current.getType()) {
-                    case "string":
-                        current.showStringCell(indexes.get(i));
+        if (indexes.size()!=0) {
+            int i = 0;
+            boolean go = true;
+            while (go) {
+                for (Column current : columns)
+                    switch (current.getType()) {
+                        case "string":
+                            current.showStringCell(indexes.get(i));
+                            System.out.print(" | ");
+                            break;
+                        case "int":
+                            current.showIntCell(indexes.get(i));
+                            System.out.print(" | ");
+                            break;
+                        case "double":
+                            current.showDoubleCell(indexes.get(i));
+                            System.out.print(" | ");
+                            break;
+                    }
+                System.out.print("\nnext | previous | exit\npage command :");
+                String command = console.nextLine();
+                switch (command) {
+                    case "next": {
+                        if (i+1 < indexes.size()) i++;
                         break;
-                    case "int":
-                        current.showIntCell(indexes.get(i));
+                    }
+                    case "previous": {
+                        if (i > 0) i--;
                         break;
-                    case "double":
-                        current.showDoubleCell(indexes.get(i));
+                    }
+                    case "exit": {
+                        go = false;
                         break;
-                }
-            System.out.print("nest | previous | exit\npage command :");
-            String command = console.nextLine();
-            switch (command) {
-                case "next": {
-                    if (i < indexes.size()) i++;
-                    break;
-                }
-                case "previous": {
-                    if (i > 0) i--;
-                    break;
-                }
-                case "exit": {
-                    go = false;
-                    break;
+                    }
                 }
             }
         }

@@ -13,7 +13,7 @@ abstract class Save{
 
         ObjectOutputStream objectOutputStream=new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(table);
-        //System.out.println("File successfully saved!");
+        System.out.println("File successfully saved!");
         objectOutputStream.close();
     }
     public static void saveCatalog(Catalog catalog) throws IOException {
@@ -23,7 +23,7 @@ abstract class Save{
 
         ObjectOutputStream objectOutputStream=new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(catalog);
-        //System.out.println("File successfully saved!");
+        System.out.println("File successfully saved!");
         objectOutputStream.close();
     }
 

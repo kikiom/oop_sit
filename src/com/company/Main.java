@@ -15,13 +15,20 @@ public class Main {
         String filename =null;
         Scanner console=new Scanner(System.in);
         Catalog catalog = new Catalog();
-        catalog.addTable("test");
-        Table table1 = catalog.getTable("test");
-        table1.addColumn("int","f");
-        table1.addColumn("string","second");
-        table1.addCell(1,0);
-        table1.addCell(2,0);
-        table1.addCell(1,0);
+//        catalog.addTable("test");
+//        Table table1 = catalog.getTable("test");
+//        table1.addColumn("int","f");
+//        table1.addColumn("string","second");
+//        table1.addColumn("double","ftest");
+//        table1.addCell(1,0);
+//        table1.addCell(2,0);
+//        table1.addCell(1,0);
+//        table1.addCell("one",1);
+//        table1.addCell(null,1);
+//        table1.addCell("second",1);
+//        table1.addCell(13.4,2);
+//        table1.addCell(231.1,2);
+//        table1.addCell(0.0,2);
         boolean go= true;
         while (go){
             System.out.print("command :");
@@ -32,6 +39,7 @@ public class Main {
                     String tname = console.nextLine();
                     Table table=catalog.getTable(tname);
                     table.insert();
+                    break;
                 }
                 case "addcolumn":{
                     System.out.print("Table name :");
@@ -98,7 +106,7 @@ public class Main {
                     }
                     break;
                 }
-                case "open":{
+                case "open cat":{
                     System.out.println("Enter file location: ");
                     filename = console.nextLine();
                     try {
@@ -106,6 +114,18 @@ public class Main {
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                    System.out.println("File catalog opened.");
+                    break;
+                }
+                case "open":{
+                    System.out.println("Enter file location: ");
+                    filename = console.nextLine();
+                    Table
+//                    try {
+//                        catalog=Load.loadCatalog(filename);
+//                    } catch (IOException | ClassNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
                     System.out.println("File opened.");
                     break;
                 }
@@ -160,10 +180,12 @@ public class Main {
                     String cnum = console.nextLine();
                     System.out.print("Search value :");
                     String value = console.nextLine();
+                    System.out.print("Target number :");
+                    String ctargetnum = console.nextLine();
                     System.out.print("New value :");
                     String newValue = console.nextLine();
                     Table table=catalog.getTable(tname);
-                    table.update(value,Integer.parseInt(cnum),newValue);
+                    table.update(value,Integer.parseInt(cnum),newValue,Integer.parseInt(ctargetnum));
                     break;
                 }
                 case "select":{

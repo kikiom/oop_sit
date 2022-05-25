@@ -15,12 +15,11 @@ public class Load {
             file.createNewFile();
         }
 
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        table = (Table) ois.readObject();
-        System.out.println("File opened.");
-        ois.close();
-        System.out.println(table.toString());
+        FileInputStream fileInputStream = new FileInputStream(file);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        table = (Table) objectInputStream.readObject();
+        System.out.println("File loaded.");
+        objectInputStream.close();
         return table;
     }
     public static Catalog loadCatalog(String filename) throws IOException,ClassNotFoundException {
@@ -37,7 +36,6 @@ public class Load {
         catalog = (Catalog) ois.readObject();
         System.out.println("File opened.");
         ois.close();
-        System.out.println(catalog.toString());
         return catalog;
     }
 }

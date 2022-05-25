@@ -56,16 +56,31 @@ public class Column implements Serializable {
         return doubles;
     }
 
+    public void addString(String data,int index){
+        if (data!=null)strings.set(index,data);
+    }
+
+    public void addInteger(int data,int index){
+       integers.set(index,data);
+    }
+
+    public void addDouble(double data,int index){
+       doubles.set(index,data);
+    }
+
     public void addString(String data){
-        strings.add(data);
+        if (data != null)strings.add(data);
+        else strings.add("NULL");
     }
 
-    public void addInteger(int data){
-        integers.add(data);
+    public void addInteger(Integer data){
+        if (data != null)integers.add(data);
+        else integers.add(0);
     }
 
-    public void addDouble(double data){
-        doubles.add(data);
+    public void addDouble(Double data){
+        if (data != null)doubles.add(data);
+        else doubles.add(0.0);
     }
 
     public int count(String data){
@@ -125,32 +140,28 @@ public class Column implements Serializable {
         return i;
     }
 
-    public void showString(){
-        for (String current : strings) {
+    public void showString(int index){
+       String current = strings.get(index);
             if(current!=null)
                 System.out.print(current);
             else
                 System.out.print("NULL");
-        }
     }
 
-    public void showDouble(){
-        for (Double current : doubles) {
-            if(current!=null)
+    public void showDouble(int index){
+        Double current = doubles.get(index);
+            if(current!=null || current!=0)
                 System.out.print(current);
             else
                 System.out.print("NULL");
-        }
     }
 
-    public void showInt(){
-            for (Integer current : integers) {
+    public void showInt(int index){
+            Integer current = integers.get(index);
                 if(current!=null)
                     System.out.print(current);
                 else
                     System.out.print("NULL");
-            }
-
     }
 
     public void showStringCell(int index){
