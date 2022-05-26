@@ -86,7 +86,6 @@ public class Main {
                     String tname = console.nextLine();
                     System.out.print("File name :");
                     String fname = console.nextLine();
-                    fname=fname+".txt";
                     Table table=catalog.getTable(tname);
                     try {
                         Save.saveTable(fname,table);
