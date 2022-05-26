@@ -12,7 +12,6 @@ public class Load {
             Save.saveTable(file,table);
             System.out.println("Noting to read");
         }
-
         FileInputStream fileInputStream = new FileInputStream(file);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         table = (Table) objectInputStream.readObject();
