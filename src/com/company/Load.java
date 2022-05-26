@@ -1,9 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 
 public class Load {
     public static Table loadTable(String filename) throws IOException,ClassNotFoundException {
@@ -11,8 +8,9 @@ public class Load {
         Table table = null;
         File file = new File(filename);
         if (!file.exists()) {
-            System.out.println("Creating new file.");
             file.createNewFile();
+            Save.saveTable(file,table);
+            System.out.println("Noting to read");
         }
 
         FileInputStream fileInputStream = new FileInputStream(file);
@@ -21,21 +19,5 @@ public class Load {
         System.out.println("File loaded.");
         objectInputStream.close();
         return table;
-    }
-    public static Catalog loadCatalog(String filename) throws IOException,ClassNotFoundException {
-
-        Catalog catalog = null;
-        File file = new File(filename);
-        if (!file.exists()) {
-            System.out.println("Creating new file.");
-            file.createNewFile();
-        }
-
-        FileInputStream fis = new FileInputStream(file);
-        ObjectInputStream ois = new ObjectInputStream(fis);
-        catalog = (Catalog) ois.readObject();
-        System.out.println("File opened.");
-        ois.close();
-        return catalog;
     }
 }

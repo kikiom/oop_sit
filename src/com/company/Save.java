@@ -16,15 +16,12 @@ abstract class Save{
         System.out.println("File successfully saved!");
         objectOutputStream.close();
     }
-    public static void saveCatalog(Catalog catalog) throws IOException {
-        File file= new File("catalog.txt");
+    public static void saveTable(File file, Table table) throws IOException {
         FileOutputStream fileOutputStream = new FileOutputStream(file);
-        if(!file.exists()) file.createNewFile();
 
         ObjectOutputStream objectOutputStream=new ObjectOutputStream(fileOutputStream);
-        objectOutputStream.writeObject(catalog);
+        objectOutputStream.writeObject(table);
         System.out.println("File successfully saved!");
         objectOutputStream.close();
     }
-
 }

@@ -150,7 +150,7 @@ public class Column implements Serializable {
 
     public void showDouble(int index){
         Double current = doubles.get(index);
-            if(current!=null || current!=0)
+        if(current!=0.0)
                 System.out.print(current);
             else
                 System.out.print("NULL");
@@ -158,7 +158,7 @@ public class Column implements Serializable {
 
     public void showInt(int index){
             Integer current = integers.get(index);
-                if(current!=null)
+                if(current!=0)
                     System.out.print(current);
                 else
                     System.out.print("NULL");

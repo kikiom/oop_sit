@@ -51,33 +51,41 @@ public class Table implements Serializable {
 
     public void showTable(){
         boolean go= true;
+        boolean last =false;
         Scanner console=new Scanner(System.in);
         int i = 0;
         while (go){
-            for (Column current : columns)
-            switch (current.getType()) {
-                    case "string":
-                        current.showString(i);
-                        System.out.print(" | ");
-                        break;
-                    case "int":
-                        current.showInt(i);
-                        System.out.print(" | ");
-                        break;
-                    case "double":
-                        current.showDouble(i);
-                        System.out.print(" | ");
-                        break;
+            if(!last){
+                for (Column current : columns)
+                switch (current.getType()) {
+                        case "string":
+                            current.showString(i);
+                            System.out.print(" | ");
+                            break;
+                        case "int":
+                            current.showInt(i);
+                            System.out.print(" | ");
+                            break;
+                        case "double":
+                            current.showDouble(i);
+                            System.out.print(" | ");
+                            break;
+                }
             }
             System.out.print("\nnext | previous | exit\npage command :");
             String command = console.nextLine();
             switch (command) {
                 case "next":{
-                    if(i+1<columns.size())i++;
+                    Column test = columns.get(0);
+                    if(i+1<test.getSize())i++;
+                    else {
+                        System.out.println("no more pages");
+                        last=true;
+                    }
                     break;
                 }
                 case "previous":{
-                    if(i>0)i--;
+                    if(i-1>0)i--;
                     break;
                 }
                 case "exit":{
@@ -111,17 +119,29 @@ public class Table implements Serializable {
                 case "string":
                     System.out.print("string input data :");
                     String datastring = console.nextLine();
-                    current.addString(datastring);
+                    if (!datastring.equals("null"))
+                    {
+                        current.addString(datastring);
+                    }
+                    else current.addString(null);
                     break;
                 case "int":
                     System.out.print("integer input data :");
                     String dataint = console.nextLine();
-                    current.addInteger(Integer.parseInt(dataint));
+                    if (!dataint.equals("null"))
+                    {
+                        current.addInteger(Integer.parseInt(dataint));
+                    }
+                    else current.addInteger(null);
                     break;
                 case "double":
                     System.out.print("double input data :");
                     String datadouble = console.nextLine();
-                    current.addDouble(Double.parseDouble(datadouble));
+                    if (!datadouble.equals("null"))
+                    {
+                        current.addDouble(Double.parseDouble(datadouble));
+                    }
+                    else current.addDouble(null);
                     break;
             }
         }
@@ -133,8 +153,9 @@ public class Table implements Serializable {
 
     public void delete(String data, int index){
         List<Integer> i =columns.get(index).search(data);
-        Column current = columns.get(index);
-        current.delete(i);
+        for (Column current :columns){
+            current.delete(i);
+        }
     }
 
     public void update(String data, int index, String newData,int newIndex){
@@ -153,7 +174,9 @@ public class Table implements Serializable {
         if (indexes.size()!=0) {
             int i = 0;
             boolean go = true;
+            boolean last =false;
             while (go) {
+                if (!last){
                 for (Column current : columns)
                     switch (current.getType()) {
                         case "string":
@@ -169,15 +192,20 @@ public class Table implements Serializable {
                             System.out.print(" | ");
                             break;
                     }
+                }
                 System.out.print("\nnext | previous | exit\npage command :");
                 String command = console.nextLine();
                 switch (command) {
                     case "next": {
                         if (i+1 < indexes.size()) i++;
+                        else {
+                            System.out.println("no more pages");
+                            last=true;
+                        }
                         break;
                     }
                     case "previous": {
-                        if (i > 0) i--;
+                        if (i-1 > 0) i--;
                         break;
                     }
                     case "exit": {

@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,23 +13,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String filename =null;
+        String filename_table =null;
+        File file = null;
         Scanner console=new Scanner(System.in);
         Catalog catalog = new Catalog();
-//        catalog.addTable("test");
-//        Table table1 = catalog.getTable("test");
-//        table1.addColumn("int","f");
-//        table1.addColumn("string","second");
-//        table1.addColumn("double","ftest");
-//        table1.addCell(1,0);
-//        table1.addCell(2,0);
-//        table1.addCell(1,0);
-//        table1.addCell("one",1);
-//        table1.addCell(null,1);
-//        table1.addCell("second",1);
-//        table1.addCell(13.4,2);
-//        table1.addCell(231.1,2);
-//        table1.addCell(0.0,2);
         boolean go= true;
         while (go){
             System.out.print("command :");
@@ -76,7 +64,7 @@ public class Main {
                     break;
                 }
                 case "save":{
-                    if(filename==null) {
+                    if(filename_table==null) {
                         System.out.println("No file opened!");
                         continue;
                     }
@@ -85,7 +73,7 @@ public class Main {
                         String tname = console.nextLine();
                         Table table = catalog.getTable(tname);
                         try {
-                            Save.saveTable(tname + ".txt", table);
+                            Save.saveTable(file, table);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -98,6 +86,7 @@ public class Main {
                     String tname = console.nextLine();
                     System.out.print("File name :");
                     String fname = console.nextLine();
+                    fname=fname+".txt";
                     Table table=catalog.getTable(tname);
                     try {
                         Save.saveTable(fname,table);
@@ -106,27 +95,15 @@ public class Main {
                     }
                     break;
                 }
-                case "open cat":{
-                    System.out.println("Enter file location: ");
-                    filename = console.nextLine();
-                    try {
-                        catalog=Load.loadCatalog(filename);
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("File catalog opened.");
-                    break;
-                }
                 case "open":{
                     System.out.println("Enter file location: ");
-                    filename = console.nextLine();
-                    Table
-//                    try {
-//                        catalog=Load.loadCatalog(filename);
-//                    } catch (IOException | ClassNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-                    System.out.println("File opened.");
+                    filename_table = console.nextLine();
+                    file = new File(filename_table);
+                    if (!file.exists()) {
+                        System.out.println("No file with this path.");
+                        filename_table =null;
+                    }
+                    else System.out.println("File opened.");
                     break;
                 }
                 case "count":{
@@ -141,12 +118,7 @@ public class Main {
                     break;
                 }
                 case "close":{
-                    try {
-                        catalog=Load.loadCatalog(filename);
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    filename=null;
+                    filename_table=null;
                     System.out.println("File closed.");
                     break;
                 }
@@ -171,6 +143,7 @@ public class Main {
                     String value = console.nextLine();
                     Table table=catalog.getTable(tname);
                     table.delete(value,Integer.parseInt(cnum));
+                    System.out.println("deleted");
                     break;
                 }
                 case "update":{
@@ -186,6 +159,7 @@ public class Main {
                     String newValue = console.nextLine();
                     Table table=catalog.getTable(tname);
                     table.update(value,Integer.parseInt(cnum),newValue,Integer.parseInt(ctargetnum));
+                    System.out.println("updated");
                     break;
                 }
                 case "select":{
@@ -201,11 +175,22 @@ public class Main {
                 }
                 case "help":{
                     System.out.println(
-                            "import\n"+"insert\n"+"addcolumn\n"+"count\n"+
-                                    "showtables\n"+"describe\n"+"print\n"+
-                                    "delete\n"+"update\n"+"select"+
-                                    "save\n"+"save as\n"+
-                                    "export\n"+"open\n"+"close\n"+"exit\n"
+                            "import - imports a new table in the catalog from a file\n"+
+                            "insert - inserts a new row in the corresponding table\n"+
+                            "addcolumn - add a new column\n"+
+                            "count - finds the number of rows in the table, whose column, contain the given value\n"+
+                            "showtables - displays a list of all loaded tables names\n"+
+                            "describe - displays information about the column types of given table \n"+
+                            "print - displays all rows in a table\n"+
+                            "delete - deletes all rows in the table whose column <search column n> contains the value <search column value>\n"+
+                            "update - updates the data in a given column \n"+
+                            "select - displays all rows with value in the given column\n"+
+                            "save - save table to a file given in open\n"+
+                            "save as - save table in the given file\n"+
+                            "export - export table in the given file\n"+
+                            "open - opens file for table\n"+
+                            "close - closes the files \n"+
+                            "exit\n"
                             );
                     break;
                 }

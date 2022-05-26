@@ -31,9 +31,10 @@ public class Catalog implements Serializable {
     }
 
     public void addTable(String name){
-        int i =tables.size();
-        tables.add(i,new Table(name));
-        address.add(i,(name+".txt"));
+                tables.add(new Table(name));
+                address.add(name+".txt");
+
+
     }
 
     public void addTable(Table table,String name){
@@ -42,6 +43,7 @@ public class Catalog implements Serializable {
             tables.add(i,table);
             address.add(i,(name));
         }
+        else System.out.println("already exists");
     }
 
     public boolean checkUnicq(String name){
@@ -78,11 +80,11 @@ public class Catalog implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder content= new StringBuilder("\ntable= ");
-        for (int i=0;i<tables.size();i++){
-            content.append(tables.get(i).getName());
-            content.append("\taddress= ").append(address.get(i));
+        StringBuilder content= new StringBuilder("\ntable name = ");
+        for (Table table : tables) {
+            content.append(table.getName());
+            content.append(";\n");
         }
-        return "Catalog{" + content + '}';
+        return "Catalog{" + content + "\t}";
     }
 }
