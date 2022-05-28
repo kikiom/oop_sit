@@ -71,6 +71,7 @@ public class Catalog implements Serializable {
                 for (Table current : tables){
                     if (current.getName().equals(oldName)){
                         current.setName(newName);
+                        System.out.println("Renamed");
                     }
                 }
             }
@@ -80,8 +81,9 @@ public class Catalog implements Serializable {
 
     @Override
     public String toString() {
-        StringBuilder content= new StringBuilder("\ntable name = ");
+        StringBuilder content = new StringBuilder("\n");
         for (Table table : tables) {
+            content.append("table name = ");
             content.append(table.getName());
             content.append(";\n");
         }

@@ -2,11 +2,6 @@ package com.company;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -14,9 +9,25 @@ public class Main {
     public static void main(String[] args) {
 
         String filename_table =null;
+        String filename_catalog =null;
         File file = null;
         Scanner console=new Scanner(System.in);
         Catalog catalog = new Catalog();
+        Table table1 = new Table("test");
+        catalog.addTable(table1,"test.txt");
+        table1.addColumn("int","kon");
+        table1.addColumn("string","n");
+        table1.addColumn("double","f");
+        table1.addCell(1,0);
+        table1.addCell(2,0);
+        table1.addCell("sad",1);
+        table1.addCell(null,1);
+        table1.addCell(1231.12,2);
+        table1.addCell(0.0,2);
+        Table table2 = new Table("oop");
+        catalog.addTable(table2,"oop.txt");
+        table2.addColumn("int","hdc");
+        table2.addCell(23,0);
         boolean go= true;
         while (go){
             System.out.print("command :");
@@ -113,7 +124,7 @@ public class Main {
                     System.out.print("Search value :");
                     String value = console.nextLine();
                     Table table =catalog.getTable(tname);
-                    System.out.println("Count = " + String.valueOf(table.count(value,Integer.parseInt(cnumber))));
+                    System.out.println("Count = " +table.count(value,Integer.parseInt(cnumber)));
                     break;
                 }
                 case "close":{
@@ -172,6 +183,38 @@ public class Main {
                     table.select(value,Integer.parseInt(cnum));
                     break;
                 }
+                case "save catalog":
+                {
+                    System.out.print("File path :");
+                    filename_catalog = console.nextLine();
+                    File file_catalog=new File(filename_catalog);
+                    try {
+                        Save.saveCatalog(file_catalog,catalog);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case "load catalog":
+                {
+                    System.out.print("File path :");
+                    filename_catalog = console.nextLine();
+                    try {
+                        catalog=Load.loadCatalog(filename_catalog);
+                    } catch (IOException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                case "rename":
+                {
+                    System.out.print("Old table name:");
+                    String oldTName= console.nextLine();
+                    System.out.print("New table name:");
+                    String newTName= console.nextLine();
+                    catalog.rename(oldTName,newTName);
+                    break;
+                }
                 case "help":{
                     System.out.println(
                             "import - imports a new table in the catalog from a file\n"+
@@ -181,12 +224,15 @@ public class Main {
                             "showtables - displays a list of all loaded tables names\n"+
                             "describe - displays information about the column types of given table \n"+
                             "print - displays all rows in a table\n"+
+                            "rename - renames a table\n"+
                             "delete - deletes all rows in the table whose column <search column n> contains the value <search column value>\n"+
                             "update - updates the data in a given column \n"+
                             "select - displays all rows with value in the given column\n"+
                             "save - save table to a file given in open\n"+
                             "save as - save table in the given file\n"+
                             "export - export table in the given file\n"+
+                            "save catalog - saves catalog to file\n"+
+                            "load catalog - loads catalog form a file onto the existing catalog\n"+
                             "open - opens file for table\n"+
                             "close - closes the files \n"+
                             "exit\n"
